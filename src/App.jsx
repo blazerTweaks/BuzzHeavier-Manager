@@ -213,6 +213,21 @@ export default function App() {
     }
   }
 
+  // ---- Drag and drop ----
+  async function handleDropItem(source, targetFolder) {
+    try {
+      if (source.id === targetFolder.id) return;
+      if (source.isDir) {
+        await api.moveDir(source.id, targetFolder.id);
+      } else {
+        await api.moveFile(source.id, targetFolder.id);
+      }
+      await loadDir(path.length > 0 ? path[path.length - 1].id : null);
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
   async function handleUpload() {
     const input = document.createElement("input");
     input.type = "file";
@@ -378,7 +393,7 @@ export default function App() {
                 setModalInput(item.note || "");
                 openModal("note", item);
               }}
-              onMove={(item) => openModal("move", item)}
+              onDropItem={handleDropItem}
             />
           ))}
         </div>
@@ -559,51 +574,6 @@ export default function App() {
               label={modalLoading ? "Salvando..." : "Salvar"}
               onClick={handleAddNote}
               disabled={modalLoading}
-            />
-          </div>
-        </Modal>
-      )}
-
-      {modal?.type === "move" && (
-        <Modal title={`Mover "${modal.item.name}"`} onClose={closeModal}>
-          <ModalInput
-            label="ID da pasta destino"
-            value={modalInput}
-            onChange={setModalInput}
-            placeholder="ex: abc123"
-            autoFocus
-          />
-          <p
-            style={{
-              fontSize: "11px",
-              color: "var(--text-dim)",
-              fontFamily: "var(--font-mono)",
-              marginBottom: "12px",
-              marginTop: "-4px",
-            }}
-          >
-            Insira o ID da pasta de destino (visível na URL da API).
-          </p>
-          {modalError && (
-            <div
-              style={{
-                color: "var(--red)",
-                fontSize: "12px",
-                marginBottom: "12px",
-                fontFamily: "var(--font-mono)",
-              }}
-            >
-              {modalError}
-            </div>
-          )}
-          <div
-            style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}
-          >
-            <ModalBtn label="Cancelar" onClick={closeModal} secondary />
-            <ModalBtn
-              label={modalLoading ? "Movendo..." : "Mover"}
-              onClick={handleMove}
-              disabled={modalLoading || !modalInput.trim()}
             />
           </div>
         </Modal>
