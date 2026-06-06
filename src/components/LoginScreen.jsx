@@ -17,6 +17,7 @@ export default function LoginScreen({ onLogin }) {
       })
       if (!res.ok) throw new Error('Chave inválida')
       const data = await res.json()
+      console.log('ACCOUNT RESPONSE:', data)
       onLogin(key.trim(), data)
     } catch (err) {
       setError(err.message || 'Falha ao conectar')

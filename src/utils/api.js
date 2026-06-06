@@ -12,6 +12,7 @@ export function getApiKey() {
 }
 
 function headers() {
+  console.log('TOKEN USADO:', _apiKey)
   return {
     'Authorization': `Bearer ${_apiKey}`,
     'Content-Type': 'application/json',
