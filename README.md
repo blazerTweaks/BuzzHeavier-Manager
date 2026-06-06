@@ -2,16 +2,6 @@
 
 Interface web pessoal para gerenciar seus arquivos no BuzzHeavier.
 
-## Setup
-
-```bash
-npm install
-npm run dev
-```
-
-Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
-(disponível em https://buzzheavier.com/account).
-
 ## Funcionalidades
 
 - 📁 Navegação por pastas com breadcrumb
@@ -31,6 +21,16 @@ Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
 - Vite + React 18
 - Lucide React (ícones)
 - BuzzHeavier API (REST)
+
+## Setup
+
+```bash
+npm install
+npm run dev
+```
+
+Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
+(disponível em https://buzzheavier.com/settings).
 
 ## Notas
 
