@@ -10,8 +10,12 @@ export async function onRequest(context) {
   }
 
   if (path.startsWith('/api')) {
-    const headers = new Headers(request.headers)
+    const headers = new Headers()
+    const auth = request.headers.get('authorization')
+    if (auth) headers.set('authorization', auth)
     headers.set('host', 'buzzheavier.com')
+    headers.set('accept', 'application/json')
+    headers.set('user-agent', 'Mozilla/5.0')
     const resp = await fetch(`https://buzzheavier.com${path}${url.search}`, {
       method: request.method,
       headers,
@@ -21,8 +25,13 @@ export async function onRequest(context) {
   }
 
   if (path.startsWith('/upload')) {
-    const headers = new Headers(request.headers)
+    const headers = new Headers()
+    const auth = request.headers.get('authorization')
+    if (auth) headers.set('authorization', auth)
     headers.set('host', 'w.buzzheavier.com')
+    headers.set('user-agent', 'Mozilla/5.0')
+    const ct = request.headers.get('content-type')
+    if (ct) headers.set('content-type', ct)
     const resp = await fetch(`https://w.buzzheavier.com${path.replace('/upload', '')}${url.search}`, {
       method: request.method,
       headers,
