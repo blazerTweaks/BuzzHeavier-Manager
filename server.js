@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProxyMiddleware } from 'http-proxy-middleware'
+import { request } from 'https'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
@@ -7,26 +7,35 @@ import fs from 'fs'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3000
-
 const distPath = path.join(__dirname, 'dist')
 
-app.use('/api', createProxyMiddleware({
-  target: 'https://buzzheavier.com',
-  changeOrigin: true,
-  secure: true,
-  on: {
-    proxyReq: (proxyReq) => {
-      proxyReq.setHeader('host', 'buzzheavier.com')
-    },
-  },
-}))
+function createProxy(targetHost, pathPrefix) {
+  return (req, res) => {
+    const path = req.url.replace(pathPrefix, '')
+    const options = {
+      hostname: targetHost,
+      port: 443,
+      path,
+      method: req.method,
+      headers: {
+        ...req.headers,
+        host: targetHost,
+      },
+    }
+    const proxyReq = request(options, (proxyRes) => {
+      res.statusCode = proxyRes.statusCode || 200
+      Object.keys(proxyRes.headers).forEach((key) => {
+        res.setHeader(key, proxyRes.headers[key])
+      })
+      proxyRes.pipe(res)
+    })
+    proxyReq.on('error', () => res.status(502).end())
+    req.pipe(proxyReq)
+  }
+}
 
-app.use('/upload', createProxyMiddleware({
-  target: 'https://w.buzzheavier.com',
-  changeOrigin: true,
-  secure: true,
-  pathRewrite: { '^/upload': '' },
-}))
+app.use('/api', createProxy('buzzheavier.com', /^\/api/))
+app.use('/upload', createProxy('w.buzzheavier.com', /^\/upload/))
 
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath))

@@ -34,10 +34,15 @@ Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
 
 ## Deploy em produção
 
-O servidor Node.js (`server.js`) serve os arquivos estáticos e faz proxy das requisições
-para a API do BuzzHeavier, resolvendo o CORS.
+### Vercel (recomendado)
 
-### Build + Start
+1. Faça o deploy do repositório no Vercel
+2. Framework: **Vite**
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. As rotas `/api/*` e `/upload/*` são automaticamente proxyadas via serverless function (`api/proxy.js`)
+
+### Railway / Render / Fly.io
 
 ```bash
 npm run build
@@ -45,10 +50,3 @@ npm start
 ```
 
 O servidor roda na porta definida por `PORT` (padrão: 3000).
-
-### Deploy em plataformas (Railway, Render, Fly.io, etc)
-
-1. Conecte o repositório na plataforma
-2. Comando de build: `npm run build`
-3. Comando de start: `npm start`
-4. A plataforma geralmente define a variável `PORT` automaticamente
