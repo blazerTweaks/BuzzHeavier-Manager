@@ -1,5 +1,7 @@
-// Usando caminho relativo para o proxy do Vite funcionar (evita CORS)
-const BASE_URL = '/api'
+const envUrl = import.meta.env.VITE_API_URL || ''
+
+export const API_BASE = envUrl ? `${envUrl}/api` : '/api'
+export const UPLOAD_BASE = envUrl || ''
 
 let _apiKey = ''
 
@@ -11,8 +13,11 @@ export function getApiKey() {
   return _apiKey
 }
 
+export function getBaseUrl() {
+  return API_BASE
+}
+
 function headers() {
-  console.log('TOKEN USADO:', _apiKey)
   return {
     'Authorization': `Bearer ${_apiKey}`,
     'Content-Type': 'application/json',
@@ -20,7 +25,7 @@ function headers() {
 }
 
 async function request(method, path, body) {
-  const res = await fetch(`${BASE_URL}${path}`, {
+  const res = await fetch(`${API_BASE}${path}`, {
     method,
     headers: headers(),
     body: body ? JSON.stringify(body) : undefined,

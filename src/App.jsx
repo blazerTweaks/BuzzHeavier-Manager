@@ -8,7 +8,7 @@ import StatsBar from "./components/StatsBar.jsx";
 import TableHeader from "./components/TableHeader.jsx";
 import FileRow from "./components/FileRow.jsx";
 import Modal, { ModalInput, ModalBtn } from "./components/Modal.jsx";
-import { api, setApiKey } from "./utils/api.js";
+import { api, setApiKey, UPLOAD_BASE } from "./utils/api.js";
 import { useLocalStorage } from "./hooks/useLocalStorage.js";
 
 function sortItems(items, sort) {
@@ -243,13 +243,15 @@ export default function App() {
 
         let uploadUrl;
 
+        const uploadPath = (folderId) => `${UPLOAD_BASE}/upload/${folderId}/${encodeURIComponent(file.name)}`
+
         if (currentFolder) {
-          uploadUrl = `/upload/${currentFolder}/${encodeURIComponent(file.name)}`;
+          uploadUrl = uploadPath(currentFolder);
         } else {
           const root = await api.getRootDir();
           const rootId = root?.data?.id || root?.id;
 
-          uploadUrl = `/upload/${rootId}/${encodeURIComponent(file.name)}`;
+          uploadUrl = uploadPath(rootId);
         }
 
         const response = await fetch(uploadUrl, {

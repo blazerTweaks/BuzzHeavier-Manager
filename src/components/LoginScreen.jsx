@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { KeyRound, Zap } from 'lucide-react'
+import { getBaseUrl } from '../utils/api.js'
 
 export default function LoginScreen({ onLogin }) {
   const [key, setKey] = useState('')
@@ -12,7 +13,7 @@ export default function LoginScreen({ onLogin }) {
     setLoading(true)
     setError('')
     try {
-      const res = await fetch('/api/account', {
+      const res = await fetch(`${getBaseUrl()}/account`, {
         headers: { 'Authorization': `Bearer ${key.trim()}` }
       })
       if (!res.ok) throw new Error('Chave inválida')

@@ -32,16 +32,23 @@ npm run dev
 Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
 (disponível em https://buzzheavier.com/settings).
 
-## Deploy (Cloudflare Pages)
+## Deploy
 
-1. Acesse https://dash.cloudflare.com → **Workers & Pages** → **Pages** → **Connect to Git**
+### 1. Criar o Worker (proxy)
+
+1. Acesse https://dash.cloudflare.com → **Workers & Pages** → **Create Worker**
+2. Copie o conteúdo de [`worker.js`](./worker.js) e cole no editor
+3. Clique em **Deploy**
+4. Anote a URL do Worker: `https://buzzheavier-proxy.seu-user.workers.dev`
+
+### 2. Configurar o Frontend (Pages)
+
+1. Em **Workers & Pages** → **Pages** → **Connect to Git**
 2. Escolha o repositório `blazerTweaks/BuzzHeavier-Manager`
 3. Configure:
-   - **Project name**: `buzzheavier-manager` (ou qualquer nome)
-   - **Production branch**: `main`
    - **Build command**: `npm run build`
    - **Build output directory**: `dist`
-4. Clique em **Save and Deploy**
-5. Após o deploy, seu site estará em `https://buzzheavier-manager-1234.pages.dev`
-
-O `functions/[[path]].js` faz proxy de `/api/*` → `buzzheavier.com` e `/upload/*` → `w.buzzheavier.com` automaticamente.
+4. Vá em **Settings** → **Environment Variables** e adicione:
+   - **Nome**: `VITE_API_URL`
+   - **Valor**: `https://buzzheavier-proxy.seu-user.workers.dev`
+5. Volte em **Deployments** e clique em **Retry deploy**
