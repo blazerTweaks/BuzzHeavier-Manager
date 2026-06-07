@@ -32,16 +32,16 @@ npm run dev
 Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
 (disponível em https://buzzheavier.com/settings).
 
-## Deploy em produção (Cloudflare Pages)
+## Deploy (Cloudflare Pages)
 
-Cloudflare Pages resolve o CORS nativamente com Functions — sem servidor, sem configuração.
-
-1. Crie uma conta em https://dash.cloudflare.com
-2. Vá em **Workers & Pages** → **Pages** → **Connect to Git**
-3. Conecte o repositório `blazerTweaks/BuzzHeavier-Manager`
-4. Configure:
+1. Acesse https://dash.cloudflare.com → **Workers & Pages** → **Pages** → **Connect to Git**
+2. Escolha o repositório `blazerTweaks/BuzzHeavier-Manager`
+3. Configure:
+   - **Project name**: `buzzheavier-manager` (ou qualquer nome)
+   - **Production branch**: `main`
    - **Build command**: `npm run build`
    - **Build output directory**: `dist`
-5. Clique em **Save and Deploy**
+4. Clique em **Save and Deploy**
+5. Após o deploy, seu site estará em `https://buzzheavier-manager-1234.pages.dev`
 
-O arquivo `public/_worker.js` é automaticamente implantado como um Cloudflare Worker, fazendo proxy de `/api/*` → `buzzheavier.com` e `/upload/*` → `w.buzzheavier.com`, servindo assets estáticos e roteando SPA.
+O `functions/[[path]].js` faz proxy de `/api/*` → `buzzheavier.com` e `/upload/*` → `w.buzzheavier.com` automaticamente.
