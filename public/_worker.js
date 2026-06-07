@@ -4,7 +4,7 @@ export default {
     const path = url.pathname
 
     if (path.startsWith('/api')) {
-      const target = `https://buzzheavier.com${path.replace('/api', '')}${url.search}`
+      const target = `https://buzzheavier.com${path}${url.search}`
       const headers = new Headers(request.headers)
       headers.set('host', 'buzzheavier.com')
       return fetch(target, {
