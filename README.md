@@ -32,8 +32,23 @@ npm run dev
 Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
 (disponível em https://buzzheavier.com/settings).
 
-## Notas
+## Deploy em produção
 
-A API do BuzzHeavier não suporta CORS para chamadas diretas do browser em produção.
-Para desenvolvimento local, o proxy do Vite (`/api → buzzheavier.com`) contorna isso.
-Para deploy em produção, você precisará de um proxy reverso simples ou backend.
+O servidor Node.js (`server.js`) serve os arquivos estáticos e faz proxy das requisições
+para a API do BuzzHeavier, resolvendo o CORS.
+
+### Build + Start
+
+```bash
+npm run build
+npm start
+```
+
+O servidor roda na porta definida por `PORT` (padrão: 3000).
+
+### Deploy em plataformas (Railway, Render, Fly.io, etc)
+
+1. Conecte o repositório na plataforma
+2. Comando de build: `npm run build`
+3. Comando de start: `npm start`
+4. A plataforma geralmente define a variável `PORT` automaticamente
