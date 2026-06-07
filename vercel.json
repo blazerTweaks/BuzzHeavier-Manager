@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/upload/:path*", "destination": "/api/upload?path=/:path*" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}

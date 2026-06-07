@@ -32,21 +32,16 @@ npm run dev
 Acesse `http://localhost:5173` e insira seu **Account ID** do BuzzHeavier
 (disponível em https://buzzheavier.com/settings).
 
-## Deploy em produção
+## Deploy em produção (Cloudflare Pages)
 
-### Vercel (recomendado)
+Cloudflare Pages resolve o CORS nativamente com Functions — sem servidor, sem configuração.
 
-1. Faça o deploy do repositório no Vercel
-2. Framework: **Vite**
-3. Build command: `npm run build`
-4. Output directory: `dist`
-5. As rotas `/api/*` e `/upload/*` são automaticamente proxyadas via serverless function (`api/proxy.js`)
+1. Crie uma conta em https://dash.cloudflare.com
+2. Vá em **Workers & Pages** → **Pages** → **Connect to Git**
+3. Conecte o repositório `blazerTweaks/BuzzHeavier-Manager`
+4. Configure:
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+5. Clique em **Save and Deploy**
 
-### Railway / Render / Fly.io
-
-```bash
-npm run build
-npm start
-```
-
-O servidor roda na porta definida por `PORT` (padrão: 3000).
+O arquivo `functions/[[path]].js` é automaticamente implantado como uma Cloudflare Pages Function, fazendo proxy de `/api/*` → `buzzheavier.com` e `/upload/*` → `w.buzzheavier.com`.
