@@ -44,4 +44,4 @@ Cloudflare Pages resolve o CORS nativamente com Functions — sem servidor, sem 
    - **Build output directory**: `dist`
 5. Clique em **Save and Deploy**
 
-O arquivo `functions/[[path]].js` é automaticamente implantado como uma Cloudflare Pages Function, fazendo proxy de `/api/*` → `buzzheavier.com` e `/upload/*` → `w.buzzheavier.com`.
+O arquivo `public/_worker.js` é automaticamente implantado como um Cloudflare Worker, fazendo proxy de `/api/*` → `buzzheavier.com` e `/upload/*` → `w.buzzheavier.com`, servindo assets estáticos e roteando SPA.
